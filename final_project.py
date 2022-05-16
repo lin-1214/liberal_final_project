@@ -1,20 +1,45 @@
 from vpython import *
 import numpy as np
+#Theme: Growth of E. coli
 
 #parameters：
+t=0
+dt=0.001
+
+#initial cell & substrate concentration
+C_c,C_s=1e-5,100
+#growth & death rate
+r_g,r_d=0,0
 
 #maximum vslue of specific growth rate(/h)
-u_max=0.0974
-
-#concentration of limiting substrate or nutrientsq
-S=
+u_max=1.3
 
 #subtration constant, equal to the concentration of subtrate giving growth rate of u_max(g/L)
-K_s=3.76
+K_s=2.2e-5
 
-#Monod equation
-u=(u_max*S)/(K_s+S)
+#death constant(/h)
+k_d=0.02
 
+scene_plot = graph(height = 400, width = 800,align = 'left', xtitle='t', ytitle='cell concentration', background=vector(0.2, 0.6, 0.2))
+cc=gcurve(color=color.blue,graph=scene_plot)
+
+#equations
+while True:
+    rate(1000)
+    t+=dt
+    dC_c=(r_g-r_d)*dt
+    dC_s=-r_g*dt
+    C_c+=dC_c
+    C_s+=dC_s
+    r_g=u_max*C_s*C_c/(K_s+C_s) #monod equation
+    r_d=k_d*C_c
+    #print(C_c)
+    
+    cc.plot(t,C_c)
+    if (C_c >= 0.4):
+        print("Final cell concentration:",C_c)
+        break
+'''
 #initial variable set up
 sample_i=5
 plate_radius=0.1 #centimeter
@@ -63,6 +88,8 @@ def grow(i):
 
 #growing part
 while True:
+    rate(1000)
+    t+=dt
     print("Period:", i+1)
 
     for i in range(sample_num):
@@ -74,7 +101,9 @@ while True:
             ball=sphere(radius=sample_radius, pos=sample[i].pos+vec(dis_after_grow*cos(theta), dis_after_grow*sin(theta),0), color=color.blue, life=0)
             sample.append(ball)
             sample_num+=1
-    rate(1)
+'''
+    
+
         
         
 
