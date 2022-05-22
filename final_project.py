@@ -3,7 +3,7 @@ import numpy as np
 #Theme: Growth of E. coli
 
 #parameters：
-t=0
+t_0=0
 dt=0.001
 
 #initial cell & substrate concentration
@@ -20,13 +20,13 @@ K_s=2.2e-5
 #death constant(/h)
 k_d=0.02
 
-scene_plot = graph(height = 400, width = 800,align = 'left', xtitle='t', ytitle='cell concentration', background=vector(0.2, 0.6, 0.2))
+scene_plot = graph(height = 400, width = 800,align = 'left', xtitle='t', ytitle='cell concentration(theoretical)',background=vector(0.85,0.85,0.85))
 cc=gcurve(color=color.blue,graph=scene_plot)
 
 #equations
 while True:
     rate(1000)
-    t+=dt
+    t_0+=dt
     dC_c=(r_g-r_d)*dt
     dC_s=-r_g*dt
     C_c+=dC_c
@@ -35,7 +35,7 @@ while True:
     r_d=k_d*C_c
     #print(C_c)
     
-    cc.plot(t,C_c)
+    cc.plot(t_0,C_c)
     if (C_c >= 0.4):
         print("Final cell concentration:",C_c)
         break

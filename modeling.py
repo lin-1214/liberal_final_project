@@ -1,8 +1,31 @@
 from vpython import *
 import numpy as np
 
-#code
+#Theme: Growth of E. coli
 
+#monod equation：
+t_0=0
+
+#initial cell & substrate concentration
+C_c,C_s=1e-5,100
+#growth & death rate
+r_g,r_d=0,0
+
+#maximum vslue of specific growth rate(/h)
+u_max=1.3
+
+#subtration constant, equal to the concentration of subtrate giving growth rate of u_max(g/L)
+K_s=2.2e-5
+
+#death constant(/h)
+k_d=0.02
+
+scene_plot = graph(height = 400, width = 800,align = 'left', xtitle='t', ytitle='cell concentration(theoretical)',background=vector(0.85,0.85,0.85))
+cc=gcurve(color=color.blue,graph=scene_plot)
+
+
+
+#modeling 
 #initial variable set up
 sample_i=5
 plate_radius=0.1 #centimeter
@@ -102,31 +125,22 @@ while True:
     t+=1
 
     rate(1)
+    if t==25:
+        break
+
+while True:
+    rate(1000)
+    t_0+=dt
+    dC_c=(r_g-r_d)*dt
+    dC_s=-r_g*dt
+    C_c+=dC_c
+    C_s+=dC_s
+    r_g=u_max*C_s*C_c/(K_s+C_s) #monod equation
+    r_d=k_d*C_c
+    #print(C_c)
+    
+    cc.plot(t_0,C_c)
+    if (C_c >= 0.4):
+        print("Final cell concentration:",C_c)
+        break
         
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-# #parameters
-
-# #比生長率最大值
-# u_max=
-
-# #制限基質濃度
-# S=
-
-# #飽和常數  u=u_max/2時之S
-# K_s=
-
-# #Monod equation
-# u=(u_max*S)/(K_s+S)
